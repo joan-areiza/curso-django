@@ -3,3 +3,8 @@ cd /opt/lampp/htdocs/ADSO-PYTHON/22-django/AprendiendoDjango/
 
 2. Ejecuta el servidor de Django:
 python3 manage.py runserver
+
+intalaciones:
+extensión pylint
+dbbrowser
+python -m pip install Pillow
