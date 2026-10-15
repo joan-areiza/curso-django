@@ -90,5 +90,9 @@ def articulos(request):
             'articulos': articulos
         })
     
+def borrar_articulo(request, id):
+    articulo = Article.objects.get(pk=id)
+    articulo.delete()
 
+    return redirect("articulos")
     
