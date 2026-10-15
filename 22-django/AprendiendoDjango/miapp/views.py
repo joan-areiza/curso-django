@@ -85,6 +85,14 @@ def editar_articulo(request, id):
 def articulos(request):
 
     articulos = Article.objects.all()
+
+    articulos = Article.objects.filter(title__exact="articulo")
+
+    articulos = Article.objects.filter(
+                                        title="Articulo", 
+                                        ).exclude(
+                                            public=True
+                                        )
     
     return render(request, 'articulos.html', {
             'articulos': articulos
