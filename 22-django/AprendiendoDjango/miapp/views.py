@@ -54,12 +54,34 @@ def contacto(request, nombre="", apellidos=""):
 
 def crear_articulo(request, title, content, public):
     articulo = Article(
-        title=title,
+        title=title, #title(nombre del modelo) = title(nombre de la variable) 
         content=content,
         public=public 
     )
+    #Para guardar este artículo en la BD 
     articulo.save()
     return HttpResponse(f"Articulo creado: <strong>{articulo.title}</strong> - {articulo.content}")
+
+#Copia de crear_articulo y lo llamamos save_articulo
+def save_article(request):# No pasamos parametros por url y lo vamos a pasar por formulario
+    if request.method == 'POST':
+        title = request.POST['title']
+        content = request.POST['content']
+        public = request.POST['public']
+        articulo = Article(
+            title = title, #title(nombre del modelo) = title(nombre de la variable)
+            content = content,
+            public = public
+        )
+        #Para guardar este articulo en la BD
+        articulo.save()
+        return HttpResponse(f"Artículo creado: <strong> {articulo.title} - {articulo.content} </strong>")
+    else:
+        return HttpResponse(f"<h2> No se ha podido crear el articulo </h2>")
+
+def create_article(request): #soporte para plantilla para visualizar el formulario
+    return render(request, 'create_article.html')
+
 
 def articulo(request):
 
@@ -83,28 +105,32 @@ def editar_articulo(request, id):
 
     return HttpResponse(f"Articulo {articulo.id} actualizado: <strong>{articulo.title}</strong> - {articulo.content}")
 
-def articulos(request):
+# Mostrar articulos
+def articulos(request):#creacion de la vista articulos
+    #Creamos una template para listar varos articulos
+    #1. hacemos la peticion a la base de datos
+    #Creamos la variable articulos y Llamamos al modelo Article, usamos objects para porder hacer una consulta
+    articulos = Article.objects.all().order_by('-id') #En este caso no usamos el metodo get si no el metodo all()
+    #para sacar toda la información
+    #dentro de articulos tenemos una lista de objetos un array de objetos
+    """
+    #Consultas con condiciones filter para filtrar por un valor especifico
+    articulos = Article.objects.filter(title__contains = "Tiburón")
 
-    articulos = Article.objects.all()
+    #Realizar una consulta que muestre solo los esten publicados y excluya bajo una condición
+    articulos = Article.objects.filter(title = "Tiburón",).exclude(public=True)
 
-    articulos = Article.objects.filter(title__exact="articulo")
-
-    articulos = Article.objects.filter(
-                                        title="Articulo", 
-                                        ).exclude(
-                                            public=True
-                                        )
-
-    articulos = Article.objects.raw('SELECT * FROM miapp_article WHERE title = "Articulo" AND public = 0')
+    #Consulta ejecutando SQL
+    articulos = Article.objects.raw("SELECT * FROM miapp_article WHERE title='Tiburón' AND public=1")
 
     #Consulta utilizando el OR con ORM
     articulos = Article.objects.filter(
         Q(title__contains="John") | Q(title__contains="Señor")
     )
-    
-    return render(request, 'articulos.html', {
-            'articulos': articulos
-        })
+    """
+    return render(request, 'articulos.html', { #pasamos el request y la template articulos.html y como tercer parametro
+        'articulos' : articulos #pasamos un diccionario con las variables que deseamos mostrar
+    })
     
 def borrar_articulo(request, id):
     articulo = Article.objects.get(pk=id)
