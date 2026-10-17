@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from miapp.models import Article, Category
 from django.db.models import Q
 from miapp.forms import FormArticle #Importamos el formulario desde forms.py
+from django.contrib import messages #libreria mensajes flash
 
 # Create your views here.
 # MVC = Modelo Vista Controlador -> Acciones (metodos)
@@ -101,11 +102,17 @@ def create_full_article(request):
                 title = title, #title(nombre del modelo) = title(nombre de la variable)
                 content = content,
                 public = public
-            )
+                )
+
             #Para guardar este articulo en la BD
             articulo.save()
+
+            #Crear mensaje flash(sesión que solo se muestra 1 vez)
+            messages.success(request, f'Ha creado correctamente el articulo {articulo.id}')
+
             #rediccionar la pagina a ariculos despues de guardado
             return redirect('articulos')
+        
             #return HttpResponse(articulo.title + ' -- ' + articulo.content + ' -- ' + str(articulo.public))
 
     else:

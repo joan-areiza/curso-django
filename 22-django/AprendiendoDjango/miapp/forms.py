@@ -6,7 +6,7 @@ class FormArticle(forms.Form): #Hereda de la clase forms
     #creamos las propiedades
     title = forms.CharField(
         label= "Titulo",
-        max_length=20,
+        max_length=30,
         required=True,
         widget=forms.TextInput(
             attrs={
@@ -16,7 +16,7 @@ class FormArticle(forms.Form): #Hereda de la clase forms
         ),
         validators=[
             validators.MinLengthValidator(4, 'El titulo es demasiado corto'),
-            validators.RegexValidator('^[A-Za-z-9]*$', 'El titulo esta mal formado','invalid_title')#expresion regular
+            validators.RegexValidator('^[A-Za-z-9ñÑáéíóúÁÉÍÓÚ ]*$', 'El titulo esta mal formado','invalid_title')#expresion regular
         ]
     )
 
@@ -24,7 +24,7 @@ class FormArticle(forms.Form): #Hereda de la clase forms
         label= "Contenido",
         widget=forms.Textarea,
         validators=[
-            validators.MaxLengthValidator(20, 'El texto es demasiado largo')
+            validators.MaxLengthValidator(500, 'El texto es demasiado largo')
         ]
     )
     
