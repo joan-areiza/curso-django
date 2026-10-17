@@ -18,15 +18,22 @@ class Article(models.Model): #Entidad
     public = models.BooleanField(verbose_name="¿Publicado?")
 
     #asigna de forma automática la fecha y hora exactas únicamente al crear el registro por primera vez
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name="Creado")
 
     #actualiza automáticamente la fecha y hora cada vez que el registro es modificado y guardado
-    update_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True,verbose_name="Modificado")
 
     class Meta:
         #poner nombre en singular
         verbose_name = "Articulo"
         verbose_name_plural = "Articulos"
+
+    def __str__(self):
+        if self.public:
+            public = "(publicado)"
+        else:
+            public = "(privado)"
+        return f"{self.title} {public}"
 
 class Category(models.Model): #Entidad
     name = models.CharField(max_length=110)

@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('content', models.TextField()),
                 ('public', models.BooleanField()),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('update_at', models.DateTimeField(auto_now=True)),
+                ('updated_at', models.DateTimeField(auto_now=True)),
             ],
         ),
         migrations.CreateModel(
