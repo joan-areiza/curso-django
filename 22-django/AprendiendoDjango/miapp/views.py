@@ -84,12 +84,37 @@ def create_article(request): #soporte para plantilla para visualizar el formular
     return render(request, 'create_article.html')
 
 def create_full_article(request):
-    #creamos una variable llamada formulario para instanciar el objeto
-    formulario = FormArticle()
-    #se carga la vista en html
-    return render(request, 'create_full_article.html', {
-        'form' : formulario
-    })
+    #Realizamos la comprobacion del metodo (POST-GET)
+    if request.method == 'POST':
+        #si llega datos por POST se debe:
+        formulario = FormArticle(request.POST)
+        #aqui podemos validar el formulario con un metodo is_valid
+        if formulario.is_valid():
+            #generamos una variable para recoger los datos del formulario
+            data_form = formulario.cleaned_data #que son los datos limpios que nos llegan
+            title = data_form.get('title') #lo puedo hacer asi ó
+            content = data_form['content'] # lo puedo hacer asi
+            public = data_form['public']
+            #return HttpResponse(title + ' -- ' + content + ' -- ' + str(public))
+
+            articulo = Article(
+                title = title, #title(nombre del modelo) = title(nombre de la variable)
+                content = content,
+                public = public
+            )
+            #Para guardar este articulo en la BD
+            articulo.save()
+            #rediccionar la pagina a ariculos despues de guardado
+            return redirect('articulos')
+            #return HttpResponse(articulo.title + ' -- ' + articulo.content + ' -- ' + str(articulo.public))
+
+    else:
+        #si nos llegan datos por POST debemos generar un formulario vacio
+        formulario = FormArticle() #creamos una variable llamada formulario para instanciar el objeto
+        #se carga la vista en html
+        return render(request, 'create_full_article.html', {
+            'form' : formulario
+        })
 
 def articulo(request):
 
