@@ -19,10 +19,15 @@ class FormArticle(forms.Form): #Hereda de la clase forms
             validators.RegexValidator('^[A-Za-z-9]*$', 'El titulo esta mal formado','invalid_title')#expresion regular
         ]
     )
+
     content = forms.CharField(
         label= "Contenido",
-        widget=forms.Textarea
+        widget=forms.Textarea,
+        validators=[
+            validators.MaxLengthValidator(20, 'El texto es demasiado largo')
+        ]
     )
+    
     #con choices se pueden pasar una serie de opciones
     public_options = [
         (1, 'Si'),
