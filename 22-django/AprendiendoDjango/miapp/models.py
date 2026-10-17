@@ -12,7 +12,7 @@ class Article(models.Model): #Entidad
     content = models.TextField(verbose_name="Contenido")
 
     #almacena la ruta del archivo, con 'null' como valor por defecto si no se carga ninguna
-    image = models.ImageField(default='null',verbose_name="Imagen")
+    image = models.ImageField(default='null',verbose_name="Imagen", upload_to="articles")
 
     #campo booleano (True/False) para indicar si el artículo está público o en borrador
     public = models.BooleanField(verbose_name="¿Publicado?")
