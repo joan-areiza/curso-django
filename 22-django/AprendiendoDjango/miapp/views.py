@@ -111,10 +111,10 @@ def create_full_article(request):
     else:
         #si nos llegan datos por POST debemos generar un formulario vacio
         formulario = FormArticle() #creamos una variable llamada formulario para instanciar el objeto
-        #se carga la vista en html
-        return render(request, 'create_full_article.html', {
-            'form' : formulario
-        })
+    #se carga la vista en html
+    return render(request, 'create_full_article.html', {
+        'form' : formulario
+    })
 
 def articulo(request):
 

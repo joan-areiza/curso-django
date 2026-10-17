@@ -5,7 +5,19 @@ class FormArticle(forms.Form): #Hereda de la clase forms
 
     #creamos las propiedades
     title = forms.CharField(
-        label= "Titulo"
+        label= "Titulo",
+        max_length=20,
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Digite el titulo',
+                'class': 'titulo_form_article'
+            }
+        ),
+        validators=[
+            validators.MinLengthValidator(4, 'El titulo es demasiado corto'),
+            validators.RegexValidator('^[A-Za-z-9]*$', 'El titulo esta mal formado','invalid_title')#expresion regular
+        ]
     )
     content = forms.CharField(
         label= "Contenido",
