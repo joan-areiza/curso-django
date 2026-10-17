@@ -6,16 +6,16 @@ class Article(models.Model): #Entidad
 
     #Propiedades
     #cadena de texto corta con un límite máximo de 150 caracteres
-    title = models.CharField(max_length=150)
+    title = models.CharField(max_length=150, verbose_name="Titulo")
 
     #campo de texto largo sin límite estricto para almacenar el cuerpo del texto
-    content = models.TextField()
+    content = models.TextField(verbose_name="Contenido")
 
     #almacena la ruta del archivo, con 'null' como valor por defecto si no se carga ninguna
-    image = models.ImageField(default='null')
+    image = models.ImageField(default='null',verbose_name="Imagen")
 
     #campo booleano (True/False) para indicar si el artículo está público o en borrador
-    public = models.BooleanField()
+    public = models.BooleanField(verbose_name="¿Publicado?")
 
     #asigna de forma automática la fecha y hora exactas únicamente al crear el registro por primera vez
     created_at = models.DateTimeField(auto_now_add=True)
