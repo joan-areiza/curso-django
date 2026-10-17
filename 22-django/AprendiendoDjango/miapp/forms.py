@@ -1,4 +1,5 @@
 from django import forms
+from django.core import validators
 
 class FormArticle(forms.Form): #Hereda de la clase forms
 
